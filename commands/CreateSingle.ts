@@ -23,6 +23,10 @@ export default class CreateSingle implements Command {
 
             let match = delayString.match(timeRegex);
 
+            if (match[0] == "") {
+                return false;
+            }
+
             let times = match.slice(1).map((val) => {
                 if (val === undefined) {
                     return 0;
