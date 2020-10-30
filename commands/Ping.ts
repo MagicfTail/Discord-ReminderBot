@@ -1,5 +1,5 @@
-import Command from "./command"
-import * as Discord from 'discord.js'
+import Command from "./command";
+import * as Discord from "discord.js";
 
 export default class Ping implements Command {
     name = "Ping";
