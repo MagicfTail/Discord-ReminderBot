@@ -4,7 +4,7 @@ import SRManager from "../StoredReminderManager";
 
 export default class Delete implements Command {
     name = "Delete";
-    description = `Deletes a command
+    description = `Deletes a reminder
     Usage: $d *message id*
     Example: $d 65834478-73d7-4d10-ae93-5cc5a4feccef`;
     aliases = ["delete", "d"];

@@ -6,6 +6,7 @@ export default class Single {
     message: string;
     time: Date;
     id: string;
+    suspended: boolean;
 
     constructor(user: string, message: string, time: Date) {
         this.user = user;
@@ -15,8 +16,9 @@ export default class Single {
     }
 
     sendMessage(client: Discord.Client) {
-        const user = client.users.cache.get(this.user);
-
-        user.send(this.message);
+        if (!this.suspended) {
+            const user = client.users.cache.get(this.user);
+            user.send(this.message);
+        }
     }
 }

@@ -12,12 +12,14 @@ export default class ListReminders implements Command {
             const reminderEmbed = new Discord.MessageEmbed()
                 .setColor("#0099ff")
                 .setAuthor("ReminderBot")
-                .setDescription("Available commands");
+                .setDescription("Your Reminders");
 
             SRManager.getUserReminders().users[msg.author.id].forEach(
                 (reminder) => {
                     reminderEmbed.addField(
-                        `${reminder.message}`,
+                        `${reminder.message} ${
+                            reminder.suspended ? "(s)" : ""
+                        }`,
                         `Id: ${reminder.id}`
                     );
                 }
