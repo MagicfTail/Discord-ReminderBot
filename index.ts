@@ -16,6 +16,8 @@ const prefix = config.PREFIX;
 const client = new Discord.Client();
 client.login(BOT_TOKEN);
 
+SRManager.loadStoredReminders();
+
 setInterval(() => {
     checkReminder();
 }, 1000);

@@ -3,6 +3,7 @@ import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
 import Second from "./time/Second";
 import UserReminders from "./UserReminders";
+import * as fs from "fs";
 
 export default abstract class SRManager {
     static dr: DateReminders;
@@ -22,6 +23,53 @@ export default abstract class SRManager {
         }
 
         return this.ur;
+    }
+
+    static loadStoredReminders() {
+        try {
+            let file = fs.readFileSync("./data/UserReminderData.json", "utf8");
+
+            this.ur = JSON.parse(file, (key: string, value: any) => {
+                if (key == "") {
+                    return new UserReminders(value["users"]);
+                } else if (key == "time") {
+                    return new Date(value);
+                } else if (
+                    !isNaN(Number(key)) &&
+                    key.length < 5 &&
+                    typeof value === "object"
+                ) {
+                    if ("delta" in value) {
+                        return new Repeating(
+                            value["user"],
+                            value["message"],
+                            value["time"],
+                            value["delta"],
+                            value["suspended"]
+                        );
+                    } else {
+                        return new Single(
+                            value["user"],
+                            value["message"],
+                            value["time"],
+                            value["suspended"]
+                        );
+                    }
+                }
+
+                return value;
+            });
+
+            Object.values(this.getUserReminders().users).forEach(
+                (v: (Single | Repeating)[]) => {
+                    v.forEach((r) => {
+                        this.getDateReminders().addReminder(r);
+                    });
+                }
+            );
+        } catch (e) {
+            console.log(e);
+        }
     }
 
     private static isEmpty(obj: Object): boolean {
