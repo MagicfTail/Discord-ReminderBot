@@ -5,7 +5,7 @@ export default abstract class SRManager {
     static dr: DateReminders;
     static ur: UserReminders;
 
-    static getDateReminder(): DateReminders {
+    static getDateReminders(): DateReminders {
         if (!this.dr) {
             this.dr = new DateReminders();
         }
@@ -13,7 +13,7 @@ export default abstract class SRManager {
         return this.dr;
     }
 
-    static getUserReminder(): UserReminders {
+    static getUserReminders(): UserReminders {
         if (!this.ur) {
             this.ur = new UserReminders();
         }

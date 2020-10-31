@@ -14,7 +14,7 @@ export default class ListReminders implements Command {
                 .setAuthor("ReminderBot")
                 .setDescription("Available commands");
 
-            SRManager.getUserReminder().users[msg.author.id].forEach(
+            SRManager.getUserReminders().users[msg.author.id].forEach(
                 (reminder) => {
                     reminderEmbed.addField(
                         `${reminder.message}`,

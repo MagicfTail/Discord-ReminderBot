@@ -44,7 +44,7 @@ export default class Repeating extends Single {
             this.id
         );
 
-        SRManager.getDateReminder().addReminder(repeating);
-        SRManager.getUserReminder().addReminder(repeating);
+        SRManager.getDateReminders().addReminder(repeating);
+        SRManager.getUserReminders().addReminder(repeating);
     }
 }

@@ -2,7 +2,7 @@ import Year from "./time/Year";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
 
-export default class StoredReminders {
+export default class DateReminders {
     years: { [key: number]: Year };
 
     constructor() {
@@ -13,7 +13,7 @@ export default class StoredReminders {
         const year = reminder.time.getFullYear();
 
         if (!(year in this.years)) {
-            this.years[year] = new Year();
+            this.years[year] = new Year(this);
         }
 
         this.years[year].addReminder(reminder);

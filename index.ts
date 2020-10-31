@@ -36,7 +36,7 @@ function exitHandler() {
 function dumpSR() {
     fs.writeFileSync(
         "./data/StoredReminderData.json",
-        JSON.stringify(SRManager.getDateReminder())
+        JSON.stringify(SRManager.getDateReminders())
     );
 
     console.log("Dumped StoredReminders");
