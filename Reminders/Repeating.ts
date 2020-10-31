@@ -8,20 +8,22 @@ export default class Repeating extends Single {
     message: string;
     time: Date;
     id: string;
-    delta: number[];
     suspended: boolean;
+    delta: number[];
 
     constructor(
         user: string,
         message: string,
         time: Date,
         delta: number[],
-        id?: string
+        id?: string,
+        suspended?: boolean
     ) {
         super(user, message, time);
 
         this.delta = delta;
         this.id = (id ?? id) || v4();
+        this.suspended = (suspended ?? suspended) || false;
     }
 
     sendMessage(client: Discord.Client) {
@@ -41,10 +43,11 @@ export default class Repeating extends Single {
             this.message,
             date,
             this.delta,
-            this.id
+            this.id,
+            this.suspended
         );
 
-        SRManager.getDateReminder().addReminder(repeating);
-        SRManager.getUserReminder().addReminder(repeating);
+        SRManager.getDateReminders().addReminder(repeating);
+        SRManager.getUserReminders().addReminder(repeating);
     }
 }

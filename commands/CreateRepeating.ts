@@ -44,8 +44,8 @@ export default class CreateRepeating implements Command {
 
             let reminder = new Repeating(msg.author.id, message, date, times);
 
-            SRManager.getDateReminder().addReminder(reminder);
-            SRManager.getUserReminder().addReminder(reminder);
+            SRManager.getDateReminders().addReminder(reminder);
+            SRManager.getUserReminders().addReminder(reminder);
 
             return true;
         } catch (error) {

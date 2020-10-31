@@ -6,6 +6,10 @@ import { commandList } from "./Commands";
 import SRManager from "./StoredReminderManager";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
+import DateReminders from "./DateReminders";
+import Time from "./time/Time";
+import Minute from "./time/Minute";
+import Second from "./time/Second";
 
 const prefix = config.PREFIX;
 
@@ -27,7 +31,7 @@ process.on("SIGUSR1", exitHandler);
 process.on("SIGUSR2", exitHandler);
 
 //catches uncaught exceptions
-process.on("uncaughtException", exitHandler);
+// process.on("uncaughtException", exitHandler);
 
 function exitHandler() {
     process.exit();
@@ -36,7 +40,7 @@ function exitHandler() {
 function dumpSR() {
     fs.writeFileSync(
         "./data/StoredReminderData.json",
-        JSON.stringify(SRManager.getDateReminder())
+        JSON.stringify(SRManager.getDateReminders())
     );
 
     console.log("Dumped StoredReminders");
@@ -50,10 +54,6 @@ function commandReceived(message: Discord.Message, success: boolean) {
     }
 }
 
-function isEmpty(obj: Object): boolean {
-    return Object.keys(obj).length == 0;
-}
-
 function deleteElement(array: (Single | Repeating)[], key: Single | Repeating) {
     const index = array.indexOf(key, 0);
     if (index > -1) {
@@ -64,55 +64,20 @@ function deleteElement(array: (Single | Repeating)[], key: Single | Repeating) {
 function checkReminder() {
     const date = new Date();
 
-    if (SRManager.getDateReminder().has(date.getFullYear())) {
-        let year = SRManager.getDateReminder().years[date.getFullYear()];
-
-        console.log(SRManager.getUserReminder());
-
-        if (year.has(date.getMonth())) {
-            let month = year.months[date.getMonth()];
-
-            if (month.has(date.getDate())) {
-                let day = month.days[date.getDate()];
-
-                if (day.has(date.getHours())) {
-                    let hour = day.hours[date.getHours()];
-
-                    if (hour.has(date.getMinutes())) {
-                        let min = hour.minutes[date.getMinutes()];
-
-                        if (min.has(date.getSeconds())) {
-                            let second = min.seconds[date.getSeconds()];
-
-                            second.reminders.forEach((reminder) => {
-                                reminder.sendMessage(client);
-                                deleteElement(
-                                    SRManager.getUserReminder().users[
-                                        reminder.user
-                                    ],
-                                    reminder
-                                );
-                            });
-
-                            delete min.seconds[date.getSeconds()];
-                        }
-
-                        if (isEmpty(min.seconds)) {
-                            delete hour.minutes[date.getMinutes()];
-                        }
-                    }
-
-                    if (isEmpty(hour.minutes)) {
-                        delete day.hours[date.getHours()];
-                    }
-                }
-
-                if (isEmpty(day.hours)) {
-                    delete month.days[date.getDate()];
-                }
-            }
-        }
+    const second = SRManager.getSecondByDate(date);
+    if (!second) {
+        return;
     }
+
+    second.reminders.forEach((reminder) => {
+        reminder.sendMessage(client);
+        deleteElement(
+            SRManager.getUserReminders().users[reminder.user],
+            reminder
+        );
+    });
+
+    SRManager.clean(second, date);
 }
 
 client.on("ready", () => {
