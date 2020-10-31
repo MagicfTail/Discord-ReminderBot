@@ -28,8 +28,9 @@ export default class Repeating extends Single {
 
     sendMessage(client: Discord.Client) {
         if (!this.suspended) {
-            const user = client.users.cache.get(this.user);
-            user.send(this.message);
+            client.users.fetch(this.user).then((user) => {
+                user.send(this.message);
+            });
         }
 
         let date = new Date();

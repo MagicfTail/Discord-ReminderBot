@@ -8,17 +8,24 @@ export default class Single {
     id: string;
     suspended: boolean;
 
-    constructor(user: string, message: string, time: Date) {
+    constructor(
+        user: string,
+        message: string,
+        time: Date,
+        suspended?: boolean
+    ) {
         this.user = user;
         this.message = message;
         this.time = time;
         this.id = v4();
+        this.suspended = (suspended ?? suspended) || false;
     }
 
     sendMessage(client: Discord.Client) {
         if (!this.suspended) {
-            const user = client.users.cache.get(this.user);
-            user.send(this.message);
+            client.users.fetch(this.user).then((user) => {
+                user.send(this.message);
+            });
         }
     }
 }

@@ -7,7 +7,7 @@ export default class Suspend implements Command {
     description = `Suspends a reminder
     Usage: $s *message id*
     Example: $s 65834478-73d7-4d10-ae93-5cc5a4feccef`;
-    aliases = ["suspend", "s"];
+    aliases = ["suspend", "s", "pause", "p"];
 
     call(msg: Discord.Message, body: string) {
         try {

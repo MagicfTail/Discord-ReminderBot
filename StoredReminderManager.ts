@@ -1,7 +1,6 @@
 import DateReminders from "./DateReminders";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
-import Day from "./time/Day";
 import Second from "./time/Second";
 import UserReminders from "./UserReminders";
 

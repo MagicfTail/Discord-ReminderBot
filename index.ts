@@ -31,7 +31,7 @@ process.on("SIGUSR1", exitHandler);
 process.on("SIGUSR2", exitHandler);
 
 //catches uncaught exceptions
-// process.on("uncaughtException", exitHandler);
+process.on("uncaughtException", exitHandler);
 
 function exitHandler() {
     process.exit();
@@ -39,11 +39,11 @@ function exitHandler() {
 
 function dumpSR() {
     fs.writeFileSync(
-        "./data/StoredReminderData.json",
-        JSON.stringify(SRManager.getDateReminders())
+        "./data/UserReminderData.json",
+        JSON.stringify(SRManager.getUserReminders())
     );
 
-    console.log("Dumped StoredReminders");
+    console.log("Dumped UserReminders");
 }
 
 function commandReceived(message: Discord.Message, success: boolean) {
