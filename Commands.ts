@@ -13,6 +13,7 @@ const single = new CreateSingle();
 const repeating = new CreateRepeating();
 const listReminders = new ListReminders();
 const deleter = new Delete();
+const suspend = new Suspend();
 
 export const commandList: Command[] = [
     ping,
@@ -20,5 +21,6 @@ export const commandList: Command[] = [
     repeating,
     listReminders,
     deleter,
+    suspend,
     help,
 ];
