@@ -5,9 +5,6 @@
       "removeComments": true,
       "sourceMap": true,
       "resolveJsonModule": true,
-      "outDir": "./dist",
-      "rootDir": "./src",
-      "moduleResolution": "node",
-      "baseUrl": ".",
+      "outDir": "./dist"
     },
 }
