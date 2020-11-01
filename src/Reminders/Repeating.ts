@@ -7,9 +7,10 @@ export default class Repeating extends Single {
     user: string;
     message: string;
     time: Date;
+    delta: number[];
     id: string;
     muted: boolean;
-    delta: number[];
+    suspended: boolean;
 
     constructor(
         user: string,
@@ -17,13 +18,14 @@ export default class Repeating extends Single {
         time: Date,
         delta: number[],
         id?: string,
-        muted?: boolean
+        muted?: boolean,
+        suspended?: boolean
     ) {
-        super(user, message, time);
+        super(user, message, time, muted);
 
         this.delta = delta;
         this.id = (id ?? id) || v4();
-        this.muted = (muted ?? muted) || false;
+        this.suspended = (suspended ?? suspended) || false;
     }
 
     sendMessage(client: Discord.Client) {

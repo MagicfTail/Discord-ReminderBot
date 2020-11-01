@@ -46,7 +46,8 @@ export default abstract class ReminderManager {
                             value["message"],
                             value["time"],
                             value["delta"],
-                            value["muted"]
+                            value["muted"],
+                            value["suspended"]
                         );
                     } else {
                         return new Single(
@@ -77,9 +78,22 @@ export default abstract class ReminderManager {
         return Object.keys(obj).length == 0;
     }
 
+    static addReminder(reminder: Single | Repeating) {
+        ReminderManager.getDateReminders().addReminder(reminder);
+        ReminderManager.getUserReminders().addReminder(reminder);
+    }
+
     static removeReminder(reminder: Single | Repeating) {
-        const second = this.getSecondByDate(reminder.time);
+        this.removeReminderFromUser(reminder);
+        this.removeReminderFromDate(reminder);
+    }
+
+    static removeReminderFromUser(reminder: Single | Repeating) {
         this.deleteElement(this.ur.users[reminder.user], reminder);
+    }
+
+    static removeReminderFromDate(reminder: Single | Repeating) {
+        const second = this.getSecondByDate(reminder.time);
         this.deleteElement(second.reminders, reminder);
 
         this.clean(second, reminder.time);

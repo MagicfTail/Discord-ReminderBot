@@ -46,8 +46,7 @@ export default class CreateSingle implements Command {
 
             let reminder = new Single(msg.author.id, message, date);
 
-            ReminderManager.getDateReminders().addReminder(reminder);
-            ReminderManager.getUserReminders().addReminder(reminder);
+            ReminderManager.addReminder(reminder);
 
             return true;
         } catch (error) {
