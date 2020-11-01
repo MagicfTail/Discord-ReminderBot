@@ -1,14 +1,16 @@
 import Command from "./Command";
 import * as Discord from "discord.js";
 import Repeating from "../Reminders/Repeating";
-import SRManager from "../StoredReminderManager";
+import ReminderManager from "../ReminderManager";
 
 const timeRegex = /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
 
 export default class CreateRepeating implements Command {
     name = "Repeating";
-    description =
-        "Set a repeating reminder \n Format: $rr *delay* *reminder message* \n Example: $rr 1d1h1m1s This is a message :)";
+    description = `Set a repeating reminder
+    
+    Format: !rr *delay* *reminder message*
+    Example: !rr 1d1h1m1s This is a message :)`;
     aliases = ["repeating", "rr", "rp"];
 
     call(msg: Discord.Message, body: string) {
@@ -44,8 +46,8 @@ export default class CreateRepeating implements Command {
 
             let reminder = new Repeating(msg.author.id, message, date, times);
 
-            SRManager.getDateReminders().addReminder(reminder);
-            SRManager.getUserReminders().addReminder(reminder);
+            ReminderManager.getDateReminders().addReminder(reminder);
+            ReminderManager.getUserReminders().addReminder(reminder);
 
             return true;
         } catch (error) {

@@ -1,6 +1,6 @@
 import * as Discord from "discord.js";
 import Single from "./Single";
-import SRManager from "../StoredReminderManager";
+import ReminderManager from "../ReminderManager";
 import { v4 } from "uuid";
 
 export default class Repeating extends Single {
@@ -8,7 +8,7 @@ export default class Repeating extends Single {
     message: string;
     time: Date;
     id: string;
-    suspended: boolean;
+    muted: boolean;
     delta: number[];
 
     constructor(
@@ -17,17 +17,17 @@ export default class Repeating extends Single {
         time: Date,
         delta: number[],
         id?: string,
-        suspended?: boolean
+        muted?: boolean
     ) {
         super(user, message, time);
 
         this.delta = delta;
         this.id = (id ?? id) || v4();
-        this.suspended = (suspended ?? suspended) || false;
+        this.muted = (muted ?? muted) || false;
     }
 
     sendMessage(client: Discord.Client) {
-        if (!this.suspended) {
+        if (!this.muted) {
             client.users.fetch(this.user).then((user) => {
                 user.send(this.message);
             });
@@ -45,10 +45,10 @@ export default class Repeating extends Single {
             date,
             this.delta,
             this.id,
-            this.suspended
+            this.muted
         );
 
-        SRManager.getDateReminders().addReminder(repeating);
-        SRManager.getUserReminders().addReminder(repeating);
+        ReminderManager.getDateReminders().addReminder(repeating);
+        ReminderManager.getUserReminders().addReminder(repeating);
     }
 }

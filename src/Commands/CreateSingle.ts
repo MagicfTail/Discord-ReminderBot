@@ -1,14 +1,16 @@
 import Command from "./Command";
 import * as Discord from "discord.js";
 import Single from "../Reminders/Single";
-import SRManager from "../StoredReminderManager";
+import ReminderManager from "../ReminderManager";
 
 const timeRegex = /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
 
 export default class CreateSingle implements Command {
     name = "Reminder";
-    description =
-        "Set a reminder \n Format: $r *delay* *reminder message* \n Example: $r 1d1h1m1s This is a message :)";
+    description = `Set a reminder
+    
+    Format: !r *delay* *reminder message*
+    Example: !r 1d1h1m1s This is a message :)`;
     aliases = ["reminder", "r"];
 
     call(msg: Discord.Message, body: string) {
@@ -44,8 +46,8 @@ export default class CreateSingle implements Command {
 
             let reminder = new Single(msg.author.id, message, date);
 
-            SRManager.getDateReminders().addReminder(reminder);
-            SRManager.getUserReminders().addReminder(reminder);
+            ReminderManager.getDateReminders().addReminder(reminder);
+            ReminderManager.getUserReminders().addReminder(reminder);
 
             return true;
         } catch (error) {

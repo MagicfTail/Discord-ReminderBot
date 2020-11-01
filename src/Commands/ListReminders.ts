@@ -1,10 +1,10 @@
 import Command from "./command";
 import * as Discord from "discord.js";
-import SRManager from "../StoredReminderManager";
+import ReminderManager from "../ReminderManager";
 
 export default class ListReminders implements Command {
     name = "List Reminders";
-    description = "Gets all your reminders";
+    description = "Lists all your reminders";
     aliases = ["list", "l"];
 
     call(msg: Discord.Message, body: string) {
@@ -14,12 +14,10 @@ export default class ListReminders implements Command {
                 .setAuthor("ReminderBot")
                 .setDescription("Your Reminders");
 
-            SRManager.getUserReminders().users[msg.author.id].forEach(
+            ReminderManager.getUserReminders().users[msg.author.id].forEach(
                 (reminder) => {
                     reminderEmbed.addField(
-                        `${reminder.message} ${
-                            reminder.suspended ? "(s)" : ""
-                        }`,
+                        `${reminder.message} ${reminder.muted ? "(s)" : ""}`,
                         `Id: ${reminder.id}`
                     );
                 }

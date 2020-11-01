@@ -5,7 +5,9 @@ node_modules/
 data/
 
 # Compiled typescript
-ts/
+dist/
 
 # Private discord token
-token.json
+src/token.json
+
+*.zip

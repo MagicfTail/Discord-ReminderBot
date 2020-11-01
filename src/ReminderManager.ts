@@ -1,11 +1,12 @@
 import DateReminders from "./DateReminders";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
-import Second from "./time/Second";
+import Second from "./Time/Second";
 import UserReminders from "./UserReminders";
 import * as fs from "fs";
+import Minute from "./Time/Minute";
 
-export default abstract class SRManager {
+export default abstract class ReminderManager {
     static dr: DateReminders;
     static ur: UserReminders;
 
@@ -45,14 +46,14 @@ export default abstract class SRManager {
                             value["message"],
                             value["time"],
                             value["delta"],
-                            value["suspended"]
+                            value["muted"]
                         );
                     } else {
                         return new Single(
                             value["user"],
                             value["message"],
                             value["time"],
-                            value["suspended"]
+                            value["muted"]
                         );
                     }
                 }
@@ -84,35 +85,37 @@ export default abstract class SRManager {
         this.clean(second, reminder.time);
     }
 
-    static clean(second: Second, date: Date) {
-        let minute = second.parent;
+    static clean(second: Second | Minute, date: Date) {
+        if (second instanceof Minute || this.isEmpty(second.reminders)) {
+            let minute = second instanceof Minute ? second : second.parent;
 
-        delete minute.seconds[date.getSeconds()];
+            delete minute.seconds[date.getSeconds()];
 
-        if (this.isEmpty(minute.seconds)) {
-            let hour = minute.parent;
+            if (this.isEmpty(minute.seconds)) {
+                let hour = minute.parent;
 
-            delete hour.minutes[date.getMinutes()];
+                delete hour.minutes[date.getMinutes()];
 
-            if (this.isEmpty(hour.minutes)) {
-                let day = hour.parent;
+                if (this.isEmpty(hour.minutes)) {
+                    let day = hour.parent;
 
-                delete day.hours[date.getHours()];
+                    delete day.hours[date.getHours()];
 
-                if (this.isEmpty(day.hours)) {
-                    let month = day.parent;
+                    if (this.isEmpty(day.hours)) {
+                        let month = day.parent;
 
-                    delete month.days[date.getDate()];
+                        delete month.days[date.getDate()];
 
-                    if (this.isEmpty(month.days)) {
-                        let year = month.parent;
+                        if (this.isEmpty(month.days)) {
+                            let year = month.parent;
 
-                        delete year.months[date.getMonth()];
+                            delete year.months[date.getMonth()];
 
-                        if (this.isEmpty(year.months)) {
-                            let dr = year.parent;
+                            if (this.isEmpty(year.months)) {
+                                let dr = year.parent;
 
-                            delete dr.years[date.getFullYear()];
+                                delete dr.years[date.getFullYear()];
+                            }
                         }
                     }
                 }
@@ -121,8 +124,10 @@ export default abstract class SRManager {
     }
 
     static getSecondByDate(date: Date): Second {
-        if (SRManager.getDateReminders().has(date.getFullYear())) {
-            let year = SRManager.getDateReminders().years[date.getFullYear()];
+        if (ReminderManager.getDateReminders().has(date.getFullYear())) {
+            let year = ReminderManager.getDateReminders().years[
+                date.getFullYear()
+            ];
 
             if (year.has(date.getMonth())) {
                 let month = year.months[date.getMonth()];

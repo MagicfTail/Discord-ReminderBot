@@ -1,6 +1,6 @@
-import Year from "./time/Year";
-import Repeating from "./Reminders/Repeating";
-import Single from "./Reminders/Single";
+import Year from "./Time/Year";
+import Repeating from "../src/Reminders/Repeating";
+import Single from "../src/Reminders/Single";
 
 export default class DateReminders {
     years: { [key: number]: Year };

@@ -3,20 +3,16 @@ import { BOT_TOKEN } from "./token.json";
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import { commandList } from "./Commands";
-import SRManager from "./StoredReminderManager";
+import ReminderManager from "./ReminderManager";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
-import DateReminders from "./DateReminders";
-import Time from "./time/Time";
-import Minute from "./time/Minute";
-import Second from "./time/Second";
 
 const prefix = config.PREFIX;
 
 const client = new Discord.Client();
 client.login(BOT_TOKEN);
 
-SRManager.loadStoredReminders();
+ReminderManager.loadStoredReminders();
 
 setInterval(() => {
     checkReminder();
@@ -42,7 +38,7 @@ function exitHandler() {
 function dumpSR() {
     fs.writeFileSync(
         "./data/UserReminderData.json",
-        JSON.stringify(SRManager.getUserReminders())
+        JSON.stringify(ReminderManager.getUserReminders())
     );
 
     console.log("Dumped UserReminders");
@@ -66,7 +62,9 @@ function deleteElement(array: (Single | Repeating)[], key: Single | Repeating) {
 function checkReminder() {
     const date = new Date();
 
-    const second = SRManager.getSecondByDate(date);
+    console.log(ReminderManager.getDateReminders());
+
+    const second = ReminderManager.getSecondByDate(date);
     if (!second) {
         return;
     }
@@ -74,12 +72,16 @@ function checkReminder() {
     second.reminders.forEach((reminder) => {
         reminder.sendMessage(client);
         deleteElement(
-            SRManager.getUserReminders().users[reminder.user],
+            ReminderManager.getUserReminders().users[reminder.user],
             reminder
         );
     });
 
-    SRManager.clean(second, date);
+    let parent = second.parent;
+
+    delete parent.seconds[date.getSeconds()];
+
+    ReminderManager.clean(parent, date);
 }
 
 client.on("ready", () => {
