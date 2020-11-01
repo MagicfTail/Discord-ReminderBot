@@ -1,5 +1,5 @@
 import * as config from "./config.json";
-import { BOT_TOKEN } from "./token.json";
+import { DEV_TOKEN, ADMIN_ID } from "./token.json";
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import { commandList } from "./Commands";
@@ -104,4 +104,8 @@ client.on("message", async (message) => {
             commandReceived(message, command.call(message, body));
         }
     });
+
+    if (call == "d" && message.author.id == ADMIN_ID) {
+        dumpSR();
+    }
 });
