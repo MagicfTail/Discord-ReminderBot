@@ -18,8 +18,12 @@ setInterval(() => {
     checkReminder();
 }, 1000);
 
+setInterval(() => {
+    dumpRM();
+}, 1000 * 60 * 60);
+
 //dump when the app is closed
-process.on("exit", dumpSR);
+process.on("exit", dumpRM);
 
 //catches ctrl+c event
 process.on("SIGINT", exitHandler);
@@ -35,7 +39,7 @@ function exitHandler() {
     process.exit();
 }
 
-function dumpSR() {
+function dumpRM() {
     fs.writeFileSync(
         "./data/UserReminderData.json",
         JSON.stringify(ReminderManager.getUserReminders())
@@ -106,6 +110,6 @@ client.on("message", async (message) => {
     });
 
     if (call == "dump" && message.author.id == ADMIN_ID) {
-        dumpSR();
+        dumpRM();
     }
 });
