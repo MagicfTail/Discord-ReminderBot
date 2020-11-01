@@ -7,6 +7,7 @@ export default class Single {
     time: Date;
     id: string;
     muted: boolean;
+    suspended: boolean = false;
 
     constructor(user: string, message: string, time: Date, muted?: boolean) {
         this.user = user;

@@ -1,5 +1,5 @@
 import * as config from "./config.json";
-import { DEV_TOKEN, ADMIN_ID } from "./token.json";
+import { BOT_TOKEN, DEV_TOKEN, ADMIN_ID } from "./token.json";
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import { commandList } from "./Commands";
@@ -10,7 +10,7 @@ import Single from "./Reminders/Single";
 const prefix = config.PREFIX;
 
 const client = new Discord.Client();
-client.login(BOT_TOKEN);
+client.login(DEV_TOKEN);
 
 ReminderManager.loadStoredReminders();
 
@@ -105,7 +105,7 @@ client.on("message", async (message) => {
         }
     });
 
-    if (call == "d" && message.author.id == ADMIN_ID) {
+    if (call == "dump" && message.author.id == ADMIN_ID) {
         dumpSR();
     }
 });
