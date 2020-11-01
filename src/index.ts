@@ -62,8 +62,6 @@ function deleteElement(array: (Single | Repeating)[], key: Single | Repeating) {
 function checkReminder() {
     const date = new Date();
 
-    console.log(ReminderManager.getDateReminders());
-
     const second = ReminderManager.getSecondByDate(date);
     if (!second) {
         return;
@@ -85,6 +83,7 @@ function checkReminder() {
 }
 
 client.on("ready", () => {
+    client.user.setActivity("!help");
     console.log("Bot is ready!");
 });
 

@@ -17,7 +17,7 @@ export default class ListReminders implements Command {
             ReminderManager.getUserReminders().users[msg.author.id].forEach(
                 (reminder) => {
                     reminderEmbed.addField(
-                        `${reminder.message} ${reminder.muted ? "(s)" : ""}`,
+                        `${reminder.message} ${reminder.muted ? "(m)" : ""}`,
                         `Id: ${reminder.id}`
                     );
                 }
