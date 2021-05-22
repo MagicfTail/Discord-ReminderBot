@@ -34,8 +34,6 @@ export default class Suspend implements Command {
                 return false;
             }
 
-            console.log(reminder);
-
             if (!reminder.suspended) {
                 reminder.suspended = !reminder.suspended;
                 ReminderManager.removeReminderFromDate(reminder);

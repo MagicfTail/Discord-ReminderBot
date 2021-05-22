@@ -4,7 +4,7 @@ import ReminderManager from "../ReminderManager";
 
 export default class Mute implements Command {
     name = "Mute";
-    description = `´Toggles mute of a reminder
+    description = `Toggles mute of a reminder
 
     Usage: !m *message id*
     Example: !m 65834478-73d7-4d10-ae93-5cc5a4feccef
