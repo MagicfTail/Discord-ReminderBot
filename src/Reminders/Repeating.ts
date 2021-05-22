@@ -35,7 +35,7 @@ export default class Repeating extends Single {
             });
         }
 
-        let date = new Date();
+        let date = this.time;
         date.setDate(date.getDate() + this.delta[0]);
         date.setHours(date.getHours() + this.delta[1]);
         date.setMinutes(date.getMinutes() + this.delta[2]);
@@ -50,7 +50,6 @@ export default class Repeating extends Single {
             this.muted
         );
 
-        ReminderManager.getDateReminders().addReminder(repeating);
-        ReminderManager.getUserReminders().addReminder(repeating);
+        ReminderManager.addReminder(repeating);
     }
 }
