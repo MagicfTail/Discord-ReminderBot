@@ -1,6 +1,7 @@
 import Command from "./command";
 import * as Discord from "discord.js";
 import ReminderManager from "../ReminderManager";
+import { millisToFormattedTime } from "../Utility";
 
 export default class ListReminders implements Command {
     name = "List Reminders";
@@ -14,8 +15,13 @@ export default class ListReminders implements Command {
                 .setAuthor("ReminderBot")
                 .setDescription("Your Reminders");
 
+            const currentTime = new Date();
+
             ReminderManager.getUserReminders().users[msg.author.id].forEach(
                 (reminder) => {
+                    const timeDiff =
+                        reminder.time.getTime() - currentTime.getTime();
+
                     reminderEmbed.addField(
                         `${reminder.message} ${
                             reminder.suspended
@@ -24,7 +30,8 @@ export default class ListReminders implements Command {
                                 ? "*(m)*"
                                 : ""
                         }`,
-                        `Id: ${reminder.id}`
+                        `${millisToFormattedTime(timeDiff)}
+                        \`Id: ${reminder.id}\``
                     );
                 }
             );
