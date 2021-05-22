@@ -8,11 +8,16 @@ import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
 
 const prefix = config.PREFIX;
+var queuedReminders: (Single | Repeating)[] = [];
 
 const client = new Discord.Client();
 client.login(DEV_TOKEN);
 
 ReminderManager.loadStoredReminders();
+
+setInterval(() => {
+    queueReminders();
+}, 100);
 
 setInterval(() => {
     checkReminder();
@@ -63,7 +68,7 @@ function deleteElement(array: (Single | Repeating)[], key: Single | Repeating) {
     }
 }
 
-function checkReminder() {
+function queueReminders() {
     const date = new Date();
 
     const second = ReminderManager.getSecondByDate(date);
@@ -71,19 +76,26 @@ function checkReminder() {
         return;
     }
 
-    second.reminders.forEach((reminder) => {
-        reminder.sendMessage(client);
-        deleteElement(
-            ReminderManager.getUserReminders().users[reminder.user],
-            reminder
-        );
-    });
+    queuedReminders.push(...second.reminders);
 
     let parent = second.parent;
 
     delete parent.seconds[date.getSeconds()];
 
     ReminderManager.clean(parent, date);
+}
+
+function checkReminder() {
+    queuedReminders.forEach((reminder) => {
+        reminder.sendMessage(client);
+
+        deleteElement(
+            ReminderManager.getUserReminders().users[reminder.user],
+            reminder
+        );
+    });
+
+    queuedReminders = [];
 }
 
 client.on("ready", () => {
