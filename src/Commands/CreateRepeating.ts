@@ -3,7 +3,8 @@ import * as Discord from "discord.js";
 import Repeating from "../Reminders/Repeating";
 import ReminderManager from "../ReminderManager";
 
-const timeRegex = /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
+const timeRegex =
+    /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
 
 export default class CreateRepeating implements Command {
     name = "Repeating";
@@ -36,6 +37,11 @@ export default class CreateRepeating implements Command {
                     return parseInt(val);
                 }
             });
+
+            if (times[2] < 5) {
+                msg.author.send("Delay must be at least 5 minutes");
+                return false;
+            }
 
             let date = new Date();
 
