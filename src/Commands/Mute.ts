@@ -1,6 +1,6 @@
 import Command from "./command";
 import * as Discord from "discord.js";
-import ReminderManager from "../ReminderManager";
+import { findReminder } from "../Utility";
 
 export default class Mute implements Command {
     name = "Mute";
@@ -14,24 +14,7 @@ export default class Mute implements Command {
 
     call(msg: Discord.Message, body: string) {
         try {
-            const userReminders = ReminderManager.getUserReminders().users[
-                msg.author.id
-            ];
-
-            if (!userReminders) {
-                return false;
-            }
-
-            const reminder = userReminders.find((r) => {
-                return (
-                    r.id == body ||
-                    r.message.toLowerCase() == body.toLowerCase()
-                );
-            });
-
-            if (!reminder) {
-                return false;
-            }
+            let reminder = findReminder(msg.author.id, body);
 
             reminder.muted = !reminder.muted;
 

@@ -2,6 +2,7 @@ import Command from "./command";
 import * as Discord from "discord.js";
 import ReminderManager from "../ReminderManager";
 import Repeating from "../Reminders/Repeating";
+import { findReminder } from "../Utility";
 
 export default class Suspend implements Command {
     name = "Suspend";
@@ -15,22 +16,9 @@ export default class Suspend implements Command {
 
     call(msg: Discord.Message, body: string) {
         try {
-            const userReminders = ReminderManager.getUserReminders().users[
-                msg.author.id
-            ];
+            let reminder = findReminder(msg.author.id, body);
 
-            if (!userReminders) {
-                return false;
-            }
-
-            const reminder = userReminders.find((r) => {
-                return (
-                    r.id == body ||
-                    r.message.toLowerCase() == body.toLowerCase()
-                );
-            });
-
-            if (!reminder || !(reminder instanceof Repeating)) {
+            if (!(reminder instanceof Repeating)) {
                 return false;
             }
 
