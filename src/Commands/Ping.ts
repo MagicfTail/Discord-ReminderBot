@@ -4,7 +4,7 @@ import * as Discord from "discord.js";
 export default class Ping implements Command {
     name = "Ping";
     description = "Pings the bot";
-    aliases = ["ping", "p"];
+    aliases = ["ping"];
 
     call(msg: Discord.Message, body: string) {
         try {

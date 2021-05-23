@@ -9,11 +9,17 @@ export default class Single {
     muted: boolean;
     suspended: boolean = false;
 
-    constructor(user: string, message: string, time: Date, muted?: boolean) {
+    constructor(
+        user: string,
+        message: string,
+        time: Date,
+        id?: string,
+        muted?: boolean
+    ) {
         this.user = user;
         this.message = message;
         this.time = time;
-        this.id = v4();
+        this.id = (id ?? id) || v4();
         this.muted = (muted ?? muted) || false;
     }
 

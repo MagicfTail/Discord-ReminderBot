@@ -21,7 +21,7 @@ export default class Repeating extends Single {
         muted?: boolean,
         suspended?: boolean
     ) {
-        super(user, message, time, muted);
+        super(user, message, time, id, muted);
 
         this.delta = delta;
         this.id = (id ?? id) || v4();
