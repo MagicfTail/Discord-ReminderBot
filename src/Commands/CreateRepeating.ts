@@ -38,7 +38,7 @@ export default class CreateRepeating implements Command {
                 }
             });
 
-            if (times[2] < 5) {
+            if (times[0] == 0 && times[1] == 0 && times[2] < 5) {
                 msg.author.send("Delay must be at least 5 minutes");
                 return false;
             }
