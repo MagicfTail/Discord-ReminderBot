@@ -139,9 +139,8 @@ export default abstract class ReminderManager {
 
     static getSecondByDate(date: Date): Second {
         if (ReminderManager.getDateReminders().has(date.getFullYear())) {
-            let year = ReminderManager.getDateReminders().years[
-                date.getFullYear()
-            ];
+            let year =
+                ReminderManager.getDateReminders().years[date.getFullYear()];
 
             if (year.has(date.getMonth())) {
                 let month = year.months[date.getMonth()];
