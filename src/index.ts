@@ -21,7 +21,7 @@ setInterval(() => {
 
 setInterval(() => {
     checkReminder();
-}, 1000);
+}, 500);
 
 setInterval(() => {
     dumpRM();
@@ -50,7 +50,9 @@ function dumpRM() {
         JSON.stringify(ReminderManager.getUserReminders())
     );
 
-    console.log("Dumped UserReminders");
+    let date = new Date();
+
+    console.log(`${date.getHours()}:${date.getMinutes()} Dumped UserReminders`);
 }
 
 function commandReceived(message: Discord.Message, success: boolean) {
