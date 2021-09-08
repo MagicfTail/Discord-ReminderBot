@@ -41,19 +41,49 @@ export default abstract class ReminderManager {
                     typeof value === "object"
                 ) {
                     if ("delta" in value) {
+                        let savedMessage: string = value["message"];
+                        let savedDate: Date = value["time"];
+                        let savedDelta: number[] = value["delta"];
+
+                        if (savedDate.getTime() < Date.now()) {
+                            let differenceMilli =
+                                Date.now() - savedDate.getTime();
+                            let deltaMilli =
+                                (((savedDelta[0] * 24 + savedDelta[1]) * 60 +
+                                    savedDelta[2]) *
+                                    60 +
+                                    savedDelta[3]) *
+                                1000;
+
+                            savedDate = new Date(
+                                savedDate.getTime() +
+                                    Math.ceil(differenceMilli / deltaMilli) *
+                                        deltaMilli +
+                                    1000
+                            );
+                        }
+
                         return new Repeating(
                             value["user"],
-                            value["message"],
-                            value["time"],
-                            value["delta"],
+                            savedMessage,
+                            savedDate,
+                            savedDelta,
                             value["muted"],
                             value["suspended"]
                         );
                     } else {
+                        let savedDate: Date = value["time"];
+                        let savedMessage: string = value["message"];
+
+                        if (savedDate.getTime() < Date.now()) {
+                            savedDate = new Date(Date.now() + 1000);
+                            savedMessage = "Delayed!\n" + savedMessage;
+                        }
+
                         return new Single(
                             value["user"],
-                            value["message"],
-                            value["time"],
+                            savedMessage,
+                            savedDate,
                             value["muted"]
                         );
                     }
