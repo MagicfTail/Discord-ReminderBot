@@ -102,6 +102,10 @@ function checkReminder() {
 
 client.on("ready", () => {
     client.user.setActivity("!help");
+    client.user
+        .setAvatar("./assets/avatar.png")
+        .then((user) => console.log("New avatar set!"))
+        .catch(console.error);
     console.log("Bot is ready!");
 });
 
