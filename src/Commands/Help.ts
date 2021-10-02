@@ -21,7 +21,7 @@ export default class Help implements Command {
                 );
             });
 
-            msg.author.send(helpEmbed);
+            msg.author.send({embeds: [helpEmbed]});
 
             return true;
         } catch (error) {

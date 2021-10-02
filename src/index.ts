@@ -10,7 +10,7 @@ import Single from "./Reminders/Single";
 const prefix = config.PREFIX;
 var queuedReminders: (Single | Repeating)[] = [];
 
-const client = new Discord.Client();
+const client = new Discord.Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 client.login(DEV_TOKEN);
 
 ReminderManager.loadStoredReminders();

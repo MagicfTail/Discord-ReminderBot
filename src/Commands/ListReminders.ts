@@ -36,7 +36,7 @@ export default class ListReminders implements Command {
                 }
             );
 
-            msg.author.send(reminderEmbed);
+            msg.author.send({ embeds: [reminderEmbed] });
 
             return true;
         } catch (error) {
