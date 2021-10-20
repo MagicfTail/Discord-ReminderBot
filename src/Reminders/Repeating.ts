@@ -30,11 +30,16 @@ export default class Repeating extends Single {
 
     sendMessage(client: Discord.Client) {
         if (!this.muted) {
-            client.users.fetch(this.user).then((user) => {
-                user.send(this.message).catch((user: Discord.User) =>
-                    console.log(`Couldn't send message to ${user.username}`)
+            client.users
+                .fetch(this.user)
+                .then((user) => {
+                    user.send(this.message).catch((user: Discord.User) =>
+                        console.log(`Couldn't send message to ${user.username}`)
+                    );
+                })
+                .catch(() =>
+                    console.log(`Couldn't send message to ${this.id}`)
                 );
-            });
         }
 
         let date = this.time;
