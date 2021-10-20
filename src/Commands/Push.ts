@@ -5,9 +5,11 @@ import ReminderManager from "../ReminderManager";
 import Single from "../Reminders/Single";
 import { findReminder } from "../Utility";
 
+// Regex matching 2d3hour4mins5sec and other combinations
 const timeRegex =
     /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
 
+// Delays the reminder a certain amount of time
 export default class Push implements Command {
     name = "Push";
     description = `Pushes back a reminder

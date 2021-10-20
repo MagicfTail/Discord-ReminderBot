@@ -2,6 +2,7 @@ import Command from "./command";
 import * as Discord from "discord.js";
 import { findReminder } from "../Utility";
 
+// Mutes a reminder
 export default class Mute implements Command {
     name = "Mute";
     description = `Toggles mute of a reminder

@@ -4,7 +4,7 @@ import { commandList } from "./Commands";
 import ReminderManager from "./ReminderManager";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
-import { deleteElement } from "./Utility";
+import { deleteElement, zeroPad } from "./Utility";
 import * as dotenv from "dotenv";
 
 dotenv.config();
@@ -54,14 +54,17 @@ client.login(botToken).catch((e) => {
 
 ReminderManager.loadStoredReminders();
 
+// Add reminders to queue every 100ms
 setInterval(() => {
     queueReminders();
 }, 100);
 
+// Handle queue every 500ms
 setInterval(() => {
     checkReminder();
 }, 500);
 
+// Dumps the current reminders every hour
 setInterval(() => {
     dumpRM();
 }, 1000 * 60 * 60);
@@ -88,6 +91,7 @@ function exitWithError(error: string) {
     process.exit();
 }
 
+// Writes the waiting reminders to UserReminderData.json
 function dumpRM() {
     fs.writeFileSync(
         "./data/UserReminderData.json",
@@ -96,9 +100,15 @@ function dumpRM() {
 
     let date = new Date();
 
-    console.log(`${date.getHours()}:${date.getMinutes()} Dumped UserReminders`);
+    console.log(
+        `${zeroPad(date.getHours(), 2)}:${zeroPad(
+            date.getMinutes(),
+            2
+        )} Dumped UserReminders`
+    );
 }
 
+// Reacts to the message, letting the user know if the command was successful
 function commandReceived(message: Discord.Message, success: boolean) {
     if (success) {
         message.react("✅");
@@ -107,6 +117,7 @@ function commandReceived(message: Discord.Message, success: boolean) {
     }
 }
 
+// Adds every reminder in the current second to the queue
 function queueReminders() {
     const date = new Date();
 
@@ -124,6 +135,7 @@ function queueReminders() {
     ReminderManager.clean(parent, date);
 }
 
+// Sends every reminder in the queue
 function checkReminder() {
     queuedReminders.forEach((reminder) => {
         reminder.sendMessage(client);
@@ -137,15 +149,17 @@ function checkReminder() {
     queuedReminders = [];
 }
 
+// Set bot avatar and activity when ready
 client.on("ready", () => {
     client.user.setActivity("!help");
     client.user
         .setAvatar("./assets/avatar.png")
-        .then((user) => console.log("New avatar set!"))
+        .then(() => console.log("New avatar set!"))
         .catch(console.error);
     console.log("Bot is ready!");
 });
 
+// Handles receiving messages
 client.on("message", async (message) => {
     if (message.author.bot) return;
     if (!message.content.startsWith(prefix)) return;
@@ -164,11 +178,8 @@ client.on("message", async (message) => {
         }
     });
 
+    // Special case for admin to dump the current reminders
     if (call == "dump" && message.author.id == process.env.ADMIN_ID) {
         dumpRM();
     }
-});
-
-client.on("error", (e) => {
-    console.log(e);
 });

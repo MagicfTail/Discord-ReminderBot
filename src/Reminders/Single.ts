@@ -1,6 +1,7 @@
 import * as Discord from "discord.js";
 import { v4 } from "uuid";
 
+// A single use reminder
 export default class Single {
     user: string;
     message: string;

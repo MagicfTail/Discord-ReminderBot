@@ -1,6 +1,7 @@
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
 
+// Structure containing all reminders, indexed by user
 export default class UserReminders {
     users: { [key: string]: (Single | Repeating)[] };
 

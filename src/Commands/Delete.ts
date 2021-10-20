@@ -3,6 +3,7 @@ import * as Discord from "discord.js";
 import ReminderManager from "../ReminderManager";
 import { findReminder } from "../Utility";
 
+// Command for deleting a reminder
 export default class Delete implements Command {
     name = "Delete";
     description = `Deletes a reminder

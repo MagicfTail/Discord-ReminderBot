@@ -3,6 +3,7 @@ import Single from "./Single";
 import ReminderManager from "../ReminderManager";
 import { v4 } from "uuid";
 
+// A repeating reminder
 export default class Repeating extends Single {
     user: string;
     message: string;

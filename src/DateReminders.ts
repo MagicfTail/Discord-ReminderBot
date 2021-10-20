@@ -2,6 +2,7 @@ import Year from "./Time/Year";
 import Repeating from "../src/Reminders/Repeating";
 import Single from "../src/Reminders/Single";
 
+// Structure containing all reminders, indexed by date
 export default class DateReminders {
     years: { [key: number]: Year };
 
