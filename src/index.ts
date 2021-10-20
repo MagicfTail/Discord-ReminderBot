@@ -1,5 +1,3 @@
-import * as config from "./config.json";
-import { BOT_TOKEN, DEV_TOKEN, ADMIN_ID } from "./token.json";
 import * as Discord from "discord.js";
 import * as fs from "fs";
 import { commandList } from "./Commands";
@@ -7,12 +5,52 @@ import ReminderManager from "./ReminderManager";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
 import { deleteElement } from "./Utility";
+import * as dotenv from "dotenv";
 
-const prefix = config.PREFIX;
+dotenv.config();
+
+const args = process.argv.slice(2);
+
+var botToken = "";
 var queuedReminders: (Single | Repeating)[] = [];
+var prefix = "!";
+
+if (process.env.PREFIX) {
+    prefix = process.env.PREFIX;
+}
+
+// Check if dev mode and if bot key has been set
+if (args.length > 1) {
+    exitWithError("Usage: node [-d] ./dist/index.js");
+} else if (args.length == 1) {
+    if (args[0] == "-d") {
+        if (!process.env.DEV_TOKEN) {
+            exitWithError(
+                `Create a file in the root directory called '.env' and add a developer bot token. Eg,
+DEV_TOKEN=NzMwIFEuJAigISU2IJDdAiWi.IoIfhA.vnOIiioUUIOOoW_Y82HjDSji2NF`
+            );
+        } else {
+            botToken = process.env.DEV_TOKEN;
+        }
+    } else {
+        exitWithError("Usage: node [-d] ./dist/index.js");
+    }
+} else {
+    if (!process.env.BOT_TOKEN) {
+        exitWithError(
+            `Create a file in the root directory called '.env' and add a bot token. Eg,
+BOT_TOKEN=NzMwIFEuJAigISU2IJDdAiWi.IoIfhA.vnOIiioUUIOOoW_Y82HjDSji2NF`
+        );
+    } else {
+        botToken = process.env.BOT_TOKEN;
+    }
+}
 
 const client = new Discord.Client();
-client.login(DEV_TOKEN);
+client.login(botToken).catch((e) => {
+    console.log("Failed to login, please double check your BOT_TOKEN");
+    process.exit();
+});
 
 ReminderManager.loadStoredReminders();
 
@@ -42,6 +80,11 @@ process.on("SIGUSR2", exitHandler);
 process.on("uncaughtException", exitHandler);
 
 function exitHandler() {
+    process.exit();
+}
+
+function exitWithError(error: string) {
+    console.log(error);
     process.exit();
 }
 
@@ -121,7 +164,11 @@ client.on("message", async (message) => {
         }
     });
 
-    if (call == "dump" && message.author.id == ADMIN_ID) {
+    if (call == "dump" && message.author.id == process.env.ADMIN_ID) {
         dumpRM();
     }
+});
+
+client.on("error", (e) => {
+    console.log(e);
 });

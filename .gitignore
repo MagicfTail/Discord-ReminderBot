@@ -8,6 +8,6 @@ data/
 dist/
 
 # Private discord token
-src/token.json
+.env
 
 *.zip
