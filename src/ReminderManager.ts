@@ -81,6 +81,7 @@ export default abstract class ReminderManager {
                             savedMessage,
                             savedDate,
                             savedDelta,
+                            value["id"],
                             value["muted"],
                             value["suspended"]
                         );
@@ -97,6 +98,7 @@ export default abstract class ReminderManager {
                             value["user"],
                             savedMessage,
                             savedDate,
+                            value["id"],
                             value["muted"]
                         );
                     }

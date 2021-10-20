@@ -6,7 +6,7 @@ export default class UserReminders {
     users: { [key: string]: (Single | Repeating)[] };
 
     constructor(obj?: any) {
-        this.users = (obj ?? obj) || {};
+        this.users = obj ? obj : {};
     }
 
     addReminder(reminder: Single | Repeating) {

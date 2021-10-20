@@ -20,8 +20,8 @@ export default class Single {
         this.user = user;
         this.message = message;
         this.time = time;
-        this.id = (id ?? id) || v4();
-        this.muted = (muted ?? muted) || false;
+        this.id = id ? id : v4();
+        this.muted = muted ? muted : false;
     }
 
     sendMessage(client: Discord.Client) {

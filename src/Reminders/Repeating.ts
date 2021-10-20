@@ -25,8 +25,8 @@ export default class Repeating extends Single {
         super(user, message, time, id, muted);
 
         this.delta = delta;
-        this.id = (id ?? id) || v4();
-        this.suspended = (suspended ?? suspended) || false;
+        this.id = id ? id : v4();
+        this.suspended = suspended ? suspended : false;
     }
 
     sendMessage(client: Discord.Client) {
