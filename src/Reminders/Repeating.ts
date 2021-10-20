@@ -33,13 +33,25 @@ export default class Repeating extends Single {
             client.users
                 .fetch(this.user)
                 .then((user) => {
-                    user.send(this.message).catch((user: Discord.User) =>
-                        console.log(`Couldn't send message to ${user.username}`)
-                    );
+                    user.send(this.message).catch((user: Discord.User) => {
+                        ReminderManager.getErrorCounter().incrementCounter(
+                            this.id
+                        );
+                        console.log(
+                            `Couldn't send message to ${user.username}`
+                        );
+                    });
                 })
-                .catch(() =>
-                    console.log(`Couldn't send message to ${this.id}`)
-                );
+                .catch(() => {
+                    ReminderManager.getErrorCounter().incrementCounter(this.id);
+                    console.log(`Couldn't send message to ${this.id}`);
+                });
+        }
+
+        // If a repeating reminder failed more than 5 times, stop it
+        if (ReminderManager.getErrorCounter().getCounter(this.id) >= 5) {
+            ReminderManager.getErrorCounter().clearUser(this.id);
+            return;
         }
 
         let date = this.time;

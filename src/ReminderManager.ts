@@ -6,10 +6,12 @@ import UserReminders from "./UserReminders";
 import * as fs from "fs";
 import Minute from "./Time/Minute";
 import { deleteElement } from "./Utility";
+import ErrorCounter from "./ErrorCounter";
 
 export default abstract class ReminderManager {
     static dr: DateReminders;
     static ur: UserReminders;
+    static ec: ErrorCounter;
 
     static getDateReminders(): DateReminders {
         if (!this.dr) {
@@ -25,6 +27,14 @@ export default abstract class ReminderManager {
         }
 
         return this.ur;
+    }
+
+    static getErrorCounter(): ErrorCounter {
+        if (!this.ec) {
+            this.ec = new ErrorCounter();
+        }
+
+        return this.ec;
     }
 
     static loadStoredReminders() {
