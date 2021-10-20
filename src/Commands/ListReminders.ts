@@ -3,6 +3,7 @@ import * as Discord from "discord.js";
 import ReminderManager from "../ReminderManager";
 import { millisToFormattedTime } from "../Utility";
 
+// List running reminders
 export default class ListReminders implements Command {
     name = "List Reminders";
     description = "Lists all your reminders";

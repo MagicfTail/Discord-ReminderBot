@@ -4,6 +4,7 @@ import ReminderManager from "../ReminderManager";
 import Repeating from "../Reminders/Repeating";
 import { findReminder } from "../Utility";
 
+// Suspends a reminder
 export default class Suspend implements Command {
     name = "Suspend";
     description = `Suspends a reminder, un-suspending will reset the reminder at the current time

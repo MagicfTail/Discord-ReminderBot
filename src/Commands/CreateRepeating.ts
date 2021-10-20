@@ -3,9 +3,11 @@ import * as Discord from "discord.js";
 import Repeating from "../Reminders/Repeating";
 import ReminderManager from "../ReminderManager";
 
+// Regex matching 2d3hour4mins5sec and other combinations
 const timeRegex =
     /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
 
+// Command for creating a repeating reminder
 export default class CreateRepeating implements Command {
     name = "Repeating";
     description = `Set a repeating reminder

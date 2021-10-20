@@ -8,6 +8,7 @@ import Minute from "./Time/Minute";
 import { deleteElement } from "./Utility";
 import ErrorCounter from "./ErrorCounter";
 
+// Instanced abstract class for managing the reminders
 export default abstract class ReminderManager {
     static dr: DateReminders;
     static ur: UserReminders;
@@ -37,6 +38,7 @@ export default abstract class ReminderManager {
         return this.ec;
     }
 
+    // Load old reminders from a file, called on startup
     static loadStoredReminders() {
         try {
             let file = fs.readFileSync("./data/UserReminderData.json", "utf8");

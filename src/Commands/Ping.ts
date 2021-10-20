@@ -1,6 +1,7 @@
 import Command from "./command";
 import * as Discord from "discord.js";
 
+// Pings the bot
 export default class Ping implements Command {
     name = "Ping";
     description = "Pings the bot";

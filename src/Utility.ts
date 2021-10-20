@@ -2,6 +2,10 @@ import ReminderManager from "./ReminderManager";
 import Single from "./Reminders/Single";
 import Repeating from "./Reminders/Repeating";
 
+export const zeroPad = (num: number, places: number) =>
+    String(num).padStart(places, "0");
+
+// Take a number in milliseconds and return a formatted string
 export function millisToFormattedTime(millis: number): string {
     var ms = millis % 1000;
     millis = (millis - ms) / 1000;
@@ -10,7 +14,14 @@ export function millisToFormattedTime(millis: number): string {
     var mins = millis % 60;
     var hrs = (millis - mins) / 60;
 
-    return hrs + "h " + mins + "m " + secs + "s";
+    return (
+        zeroPad(hrs, 2) +
+        "h " +
+        zeroPad(mins, 2) +
+        "m " +
+        zeroPad(secs, 2) +
+        "s"
+    );
 }
 
 export function findReminder(authorId: string, message: string) {

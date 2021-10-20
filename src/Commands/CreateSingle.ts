@@ -3,8 +3,11 @@ import * as Discord from "discord.js";
 import Single from "../Reminders/Single";
 import ReminderManager from "../ReminderManager";
 
-const timeRegex = /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
+// Regex matching 2d3hour4mins5sec and other combinations
+const timeRegex =
+    /(?:(\d+)(?:days|day|d))?(?:(\d+)(?:hours|hour|h))?(?:(\d+)(?:minutes|minute|mins|min|m))?(?:(\d+)(?:seconds|second|secs|sec|s))?/;
 
+// Command for creating a one time reminder
 export default class CreateSingle implements Command {
     name = "Reminder";
     description = `Set a reminder

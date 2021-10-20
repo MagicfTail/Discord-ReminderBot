@@ -9,7 +9,6 @@ import Mute from "./Commands/Mute";
 import Suspend from "./Commands/Suspend";
 import Push from "./Commands/Push";
 
-const help = new Help();
 const ping = new Ping();
 const single = new CreateSingle();
 const repeating = new CreateRepeating();
@@ -18,7 +17,10 @@ const deleter = new Delete();
 const mute = new Mute();
 const suspend = new Suspend();
 const push = new Push();
+const help = new Help();
 
+// List of all commands, add here when adding a new command
+// Always have help last
 export const commandList: Command[] = [
     ping,
     single,

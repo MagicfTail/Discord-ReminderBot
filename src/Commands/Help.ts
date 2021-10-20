@@ -2,6 +2,7 @@ import Command from "./Command";
 import { commandList } from "../Commands";
 import * as Discord from "discord.js";
 
+// Command for printing a list of commands
 export default class Help implements Command {
     name = "Help";
     description = "Displays commands";

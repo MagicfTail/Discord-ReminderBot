@@ -1,3 +1,4 @@
+// Structure keep track of how many times a user has errored out
 export default class ErrorCounter {
     users: { [key: string]: number };
 
