@@ -1,4 +1,6 @@
 import ReminderManager from "./ReminderManager";
+import Single from "./Reminders/Single";
+import Repeating from "./Reminders/Repeating";
 
 export function millisToFormattedTime(millis: number): string {
     var ms = millis % 1000;
@@ -29,4 +31,15 @@ export function findReminder(authorId: string, message: string) {
     }
 
     return reminder;
+}
+
+// Deletes an element from
+export function deleteElement(
+    array: (Single | Repeating)[],
+    key: Single | Repeating
+) {
+    const index = array.indexOf(key, 0);
+    if (index > -1) {
+        array.splice(index, 1);
+    }
 }

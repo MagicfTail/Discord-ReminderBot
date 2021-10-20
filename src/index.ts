@@ -6,6 +6,7 @@ import { commandList } from "./Commands";
 import ReminderManager from "./ReminderManager";
 import Repeating from "./Reminders/Repeating";
 import Single from "./Reminders/Single";
+import { deleteElement } from "./Utility";
 
 const prefix = config.PREFIX;
 var queuedReminders: (Single | Repeating)[] = [];
@@ -60,13 +61,6 @@ function commandReceived(message: Discord.Message, success: boolean) {
         message.react("✅");
     } else {
         message.react("❎");
-    }
-}
-
-function deleteElement(array: (Single | Repeating)[], key: Single | Repeating) {
-    const index = array.indexOf(key, 0);
-    if (index > -1) {
-        array.splice(index, 1);
     }
 }
 

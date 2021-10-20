@@ -5,6 +5,7 @@ import Second from "./Time/Second";
 import UserReminders from "./UserReminders";
 import * as fs from "fs";
 import Minute from "./Time/Minute";
+import { deleteElement } from "./Utility";
 
 export default abstract class ReminderManager {
     static dr: DateReminders;
@@ -119,12 +120,12 @@ export default abstract class ReminderManager {
     }
 
     static removeReminderFromUser(reminder: Single | Repeating) {
-        this.deleteElement(this.ur.users[reminder.user], reminder);
+        deleteElement(this.ur.users[reminder.user], reminder);
     }
 
     static removeReminderFromDate(reminder: Single | Repeating) {
         const second = this.getSecondByDate(reminder.time);
-        this.deleteElement(second.reminders, reminder);
+        deleteElement(second.reminders, reminder);
 
         this.clean(second, reminder.time);
     }
@@ -193,16 +194,6 @@ export default abstract class ReminderManager {
                     }
                 }
             }
-        }
-    }
-
-    private static deleteElement(
-        array: (Single | Repeating)[],
-        key: Single | Repeating
-    ) {
-        const index = array.indexOf(key, 0);
-        if (index > -1) {
-            array.splice(index, 1);
         }
     }
 }
