@@ -7,7 +7,7 @@
         "start": "node ./dist/index.js",
         "dev": "node ./dist/index.js -d",
         "build": "tsc --build tsconfig.json",
-        "package": "7z a -tzip ReminderBot.zip assets/ dist/"
+        "package": "7z a -tzip ReminderBot.zip assets/ dist/ package.json package-lock.json"
     },
     "author": "Magic fTail",
     "license": "ISC",
